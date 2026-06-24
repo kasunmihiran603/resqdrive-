@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
-// Pre-seeded accounts list for demo and development convenience
+// Restructured pre-seeded accounts using the nested data model schemas
 const PRE_SEEDED_USERS = [
   {
     email: 'admin@resqdrive.com',
@@ -15,25 +15,41 @@ const PRE_SEEDED_USERS = [
     password: 'UserPassword123',
     role: 'USER',
     name: 'John Doe',
-    vehicleNumber: 'AB-1234',
-    vehicleType: 'Car'
+    vehicleInfo: {
+      vehicleNumber: 'AB-1234',
+      vehicleType: 'Car',
+      vehicleBrand: 'Toyota',
+      vehicleModel: 'Corolla',
+      insuranceProvider: 'Allianz Insurance',
+      insuranceNumber: 'AZ-987654',
+      emergencyContact: '0771112222'
+    }
   },
   {
     email: 'garage@resqdrive.com',
     password: 'GaragePassword123',
     role: 'GARAGE_OWNER',
-    name: 'QuickFix Garage',
-    garageName: 'QuickFix Auto Care',
-    contactNumber: '0771234567',
-    garageAddress: '123 Main St, Colombo'
+    name: 'QuickFix Garage Owner',
+    garageInfo: {
+      garageName: 'QuickFix Auto Care',
+      contactNumber: '0771234567',
+      garageAddress: '123 Main St, Colombo',
+      servicesOffered: ['Engine repair', 'Brake service', 'Battery replacement', 'Tires'],
+      operatingHours: '08:00 AM - 06:00 PM',
+      experienceLevel: '5+ Years'
+    }
   },
   {
     email: 'towing@resqdrive.com',
     password: 'TowingPassword123',
     role: 'TOWING_OPERATOR',
-    name: 'Apex Towing',
-    companyName: 'Apex Towing Services',
-    contactNumber: '0777654321'
+    name: 'Apex Towing Owner',
+    towingInfo: {
+      companyName: 'Apex Towing Services',
+      contactNumber: '0777654321',
+      operatingAreas: 'Colombo & Gampaha Districts',
+      supportedVehicles: ['Car', 'Bike', 'Van']
+    }
   }
 ];
 
@@ -63,10 +79,10 @@ export const AuthProvider = ({ children }) => {
 
   // Login handler
   const login = (email, password) => {
-    // 1. Fetch registered users from localStorage
+    // Fetch registered users from localStorage
     const registeredUsers = JSON.parse(localStorage.getItem('resqdrive_users') || '[]');
     
-    // 2. Look for matching user in both registered and pre-seeded users
+    // Look for matching user in both registered and pre-seeded users
     const allUsers = [...PRE_SEEDED_USERS, ...registeredUsers];
     const foundUser = allUsers.find(
       (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password

@@ -3,6 +3,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const UserDashboard = () => {
   const { currentUser, logout } = useAuth();
+  const vehicle = currentUser?.vehicleInfo || {};
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans flex flex-col antialiased">
@@ -34,7 +35,7 @@ const UserDashboard = () => {
       {/* Main Content Area */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 flex flex-col justify-center">
         {/* Welcome Section */}
-        <div className="mb-10 animate-fade-in">
+        <div className="mb-10">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-2">
             Welcome back, {currentUser?.name || 'Driver'}!
           </h1>
@@ -45,7 +46,7 @@ const UserDashboard = () => {
 
         {/* Dashboard Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Card 1: User Profile & Vehicle Metadata */}
+          {/* Card 1: User Profile & Identity */}
           <div className="bg-slate-900/60 border border-slate-900 rounded-xl p-6 shadow-xl flex flex-col justify-between">
             <div>
               <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
@@ -54,20 +55,24 @@ const UserDashboard = () => {
                 </svg>
                 Driver Profile
               </h2>
-              <div className="space-y-3.5 text-sm">
+              <div className="space-y-4 text-sm">
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Full Name</label>
-                  <p className="text-slate-200 font-medium">{currentUser?.name}</p>
+                  <p className="text-slate-200 font-medium mt-0.5">{currentUser?.name}</p>
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Email Address</label>
-                  <p className="text-slate-200 font-medium">{currentUser?.email}</p>
+                  <p className="text-slate-200 font-medium mt-0.5">{currentUser?.email}</p>
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Emergency Contact</label>
+                  <p className="text-slate-200 font-medium mt-0.5">{vehicle.emergencyContact || 'Not provided'}</p>
                 </div>
               </div>
             </div>
             
             <div className="mt-6 pt-6 border-t border-slate-900">
-              <span className="text-xs text-slate-500">Session ID: {Math.floor(Math.random() * 900000) + 100000}</span>
+              <span className="text-xs text-slate-500">Session status: Connected</span>
             </div>
           </div>
 
@@ -78,19 +83,34 @@ const UserDashboard = () => {
                 <svg className="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
-                Registered Vehicle
+                Vehicle Information
               </h2>
               <div className="space-y-3.5 text-sm">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Vehicle Type</label>
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-slate-800 text-slate-300 mt-1 border border-slate-700">
-                    {currentUser?.vehicleType || 'Not specified'}
-                  </span>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Vehicle Model</label>
+                  <p className="text-slate-200 font-semibold text-base mt-0.5">
+                    {vehicle.vehicleBrand} {vehicle.vehicleModel}
+                  </p>
                 </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Vehicle Plate Number</label>
-                  <p className="text-slate-200 font-mono text-base font-semibold tracking-wider uppercase mt-1">
-                    {currentUser?.vehicleNumber || 'N/A'}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Type</label>
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-slate-800 text-slate-300 mt-1 border border-slate-700">
+                      {vehicle.vehicleType}
+                    </span>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Plate Number</label>
+                    <p className="text-slate-200 font-mono text-sm tracking-wide uppercase mt-1">
+                      {vehicle.vehicleNumber}
+                    </p>
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-slate-900">
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">Insurance Details</label>
+                  <p className="text-slate-300 text-xs mt-1">
+                    <strong>Provider:</strong> {vehicle.insuranceProvider || 'None'}<br />
+                    <strong>Policy #:</strong> {vehicle.insuranceNumber || 'None'}
                   </p>
                 </div>
               </div>
@@ -104,10 +124,10 @@ const UserDashboard = () => {
                 <svg className="w-5 h-5 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                Emergency Center
+                Emergency Assistance
               </h2>
               <p className="text-slate-400 text-sm mb-6 leading-relaxed">
-                Emergency Request systems are currently being optimized and will be activated in the next development phase.
+                Emergency Request, GPS sharing, and diagnostics systems will be activated in future phases.
               </p>
             </div>
             <div>
