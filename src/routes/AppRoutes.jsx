@@ -12,6 +12,9 @@ import GarageDashboard from '../pages/dashboards/GarageDashboard';
 import TowingDashboard from '../pages/dashboards/TowingDashboard';
 import AdminDashboard from '../pages/dashboards/AdminDashboard';
 
+// Import Layout
+import MainLayout from '../layouts/MainLayout';
+
 // Import Guard
 import ProtectedRoute from './ProtectedRoute';
 
@@ -81,12 +84,14 @@ const AppRoutes = () => {
         }
       />
 
-      {/* Protected Dashboard Routes */}
+      {/* Protected Dashboard Routes wrapped inside MainLayout */}
       <Route
         path="/user"
         element={
           <ProtectedRoute allowedRoles={['USER']}>
-            <UserDashboard />
+            <MainLayout>
+              <UserDashboard />
+            </MainLayout>
           </ProtectedRoute>
         }
       />
@@ -94,7 +99,9 @@ const AppRoutes = () => {
         path="/garage"
         element={
           <ProtectedRoute allowedRoles={['GARAGE_OWNER']}>
-            <GarageDashboard />
+            <MainLayout>
+              <GarageDashboard />
+            </MainLayout>
           </ProtectedRoute>
         }
       />
@@ -102,7 +109,9 @@ const AppRoutes = () => {
         path="/towing"
         element={
           <ProtectedRoute allowedRoles={['TOWING_OPERATOR']}>
-            <TowingDashboard />
+            <MainLayout>
+              <TowingDashboard />
+            </MainLayout>
           </ProtectedRoute>
         }
       />
@@ -110,7 +119,9 @@ const AppRoutes = () => {
         path="/admin"
         element={
           <ProtectedRoute allowedRoles={['ADMIN']}>
-            <AdminDashboard />
+            <MainLayout>
+              <AdminDashboard />
+            </MainLayout>
           </ProtectedRoute>
         }
       />
